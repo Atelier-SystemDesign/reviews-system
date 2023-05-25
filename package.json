@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/Benevolent-Black-Olives/reviews-system/issues"
   },
-  "homepage": "https://github.com/Benevolent-Black-Olives/reviews-system#readme"
+  "homepage": "https://github.com/Benevolent-Black-Olives/reviews-system#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.2.1",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5"
+  }
 }
