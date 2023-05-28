@@ -1,15 +1,17 @@
-// require('dotenv').config({ path: '../.env' });
-// const { Client } = require('pg');
+require('dotenv').config();
+const { Client } = require('pg');
 
-// const client = new Client({
-//   user: process.env.USER,
-//   host: process.env.HOST,
-//   database: process.env.DATABASE_NAME,
-//   port: process.env.PORT,
-//   password: process.env.PASSWORD,
-// });
+const client = new Client({
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE_NAME,
+  port: process.env.PORT,
+  password: process.env.PASSWORD,
+});
 
-// // console.log(process.env);
+client.connect();
+console.log('client connected to database', client.database);
+// console.log(process.env.DATABASE_NAME, 'ENV');
 // console.log('db', process.env.DATABASE_NAME);
 // client.connect().then(() => client.query(`CREATE TABLE IF NOT EXISTS reviews(
 //   id SERIAL PRIMARY KEY,
@@ -48,3 +50,6 @@
 //     console.log('query error', err.message);
 //     client.end();
 //   });
+
+// client.end();
+module.exports = client;
