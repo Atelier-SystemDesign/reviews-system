@@ -76,40 +76,45 @@ module.exports = {
   },
 
   addReviews: (req, res) => {
+    // console.log('req  rating', req.params, 'req body', req.body);
     let {
       product_id, rating, summary,
       body, recommend, name, email, photos, characteristics,
     } = req.body;
-    rating = rating || 5,
-    summary = summary || '',
-    body = body || '',
-    recommend = recommend || false,
-    name = name || '',
-    email = email || '',
-    photos = photos || [],
-    characteristics = characteristics || {},
-
+    product_id = Number(product_id);
+    rating = rating || 5;
+    summary = summary || '';
+    body = body || '';
+    recommend = recommend || false;
+    name = name || '';
+    email = email || '';
+    photos = photos || [];
+    characteristics = characteristics || {};
+    console.log('add reviews parameters', product_id, rating, summary, body, recommend, name, email, photos, characteristics);
     reviews.addReviews(product_id, rating, summary, body, recommend, name, email, photos, characteristics).then(() => {
       res.sendStatus(201);
     }).catch((err) => {
-      console.log(err);
+      console.log(err, 'error in db response from reviews addReviews');
       res.sendStatus(500);
     });
   },
 
   markReviewAsHelpful: (req, res) => {
-    console.log('req', req);
     reviews.markReviewAsHelpful(req.params.review_id).then((data) => {
       console.log('helpful data', data);
-      res.status(202).send(data);
-    }).catch(res.sendStatus(500));
+      res.sendStatus(204);
+    }).catch(() => {
+      res.sendStatus(500);
+    });
   },
 
   reportReview: (req, res) => {
     reviews.reportReview(req.params.review_id)
       .then((data) => {
         console.log('report review data', data);
-        res.status(202).send(data);
-      }).catch(res.sendStatus(500));
+        res.sendStatus(204);
+      }).catch(() => {
+        res.sendStatus(500);
+      });
   },
 };
