@@ -9,7 +9,7 @@ const PORT = process.env.SERVER_PORT;
 const app = express();
 
 // Middleware
-app.use(morgan('dev'));
+// app.use(morgan('dev')); when testing k6 comment this
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
