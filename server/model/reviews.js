@@ -2,10 +2,8 @@
 /* eslint-disable camelcase */
 const client = require('../../database');
 
-console.log('model reviews running');
 module.exports = {
   getReviews: (product_id, page, count, sort) => {
-    console.log('inside getReviews model');
     let ord = '';
     if (sort === 'newest') {
       ord = 'ORDER BY r.date DESC';
@@ -62,20 +60,19 @@ module.exports = {
   addReviews: (product_id, rating, summary, body, recommend, name, email, photos, characteristics) => {
     const query = {
       text: `INSERT INTO reviews (product_id, rating, summary, body, recommend, reviewer_name, reviewer_email)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING id`,
       values: [product_id, rating, summary, body, recommend, name, email],
     };
     return client.query(query).then((data) => {
       const review_id = data.rows[0].id;
-      console.log('data', data.rows[0]);
       photos.forEach((photo) => {
         client.query(`INSERT INTO reviews_photos (review_id, url)
         VALUES($1, $2)`, [review_id, photo.url])
           .catch((err) => console.log('cannot add reviews photos to the db', err));
       });
-
       Object.keys(characteristics).forEach((id) => {
-        client.query('INSERT INTO characteristics_reviews (characteristic_id, review_id, value) VALUES($1, $2, $3)', [id, review_id, characteristics[id]]).then(
+        client.query('INSERT INTO characteristic_reviews (characteristic_id, review_id, value) VALUES($1, $2, $3)', [id, review_id, characteristics[id]]).then(
           (res) => console.log(res.rows[0]),
         ).catch((err) => console.log('cannot add characteristics review to the db', err));
       });
@@ -83,14 +80,12 @@ module.exports = {
   },
 
   markReviewAsHelpful: (review_id) => {
-    console.log('review id in put', review_id);
     const queryHelpful = {
       text: `UPDATE reviews
       SET helpfulness = helpfulness + 1
       WHERE id = $1`,
       values: [review_id],
     };
-
     return client.query(queryHelpful).catch((err) => console.log('cannot mark review as helpful db error', err));
   },
 

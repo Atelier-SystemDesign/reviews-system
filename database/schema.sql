@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS reviews(
 
 
 CREATE TABLE IF NOT EXISTS characteristics (
-    id SERIAL PRIMARY KEY,count 
+    id SERIAL PRIMARY KEY,
     product_id INTEGER,
     name VARCHAR(255));
 
