@@ -1,8 +1,6 @@
 const request = require('supertest');
 const express = require('express');
-const client = require('../database');
 const router = require('../server/router/index');
-require('dotenv').config();
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
